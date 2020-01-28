@@ -19,4 +19,25 @@ exports.getAllQuacks = functions.https.onRequest((req, res) =>{
         return res.json(quacks);
     })
     .catch(err => console.error(err)); 
-})
+});
+
+exports.createQuack =  functions.https.onRequest((req,res) => {
+    if(req.method !== 'POST'){
+        return res.status(400).json({error: "Method not allowed!"});
+    }
+    const newQuack = {
+        body: req.body.body,
+        userNN: req.body.userNN,
+        created: admin.firestore.Timestamp.fromDate(new Date())
+    };
+    admin.firestore()
+    .collection('quacks')
+    .add(newQuack)
+    .then(doc => {
+        res.json({message: `document ${doc.id} created succesfully`})
+    })
+    .catch(err => {
+        res.status(500).json({error: 'Something went wrong!'});
+        console.error(err);
+    });
+});
