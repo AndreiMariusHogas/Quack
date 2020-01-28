@@ -2,33 +2,38 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
 admin.initializeApp();
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-exports.helloWorld = functions.https.onRequest((request, response) => {
- response.send("Hello from Firebase!");
-});
 
-exports.getAllQuacks = functions.https.onRequest((req, res) =>{
-    admin.firestore().collection('quacks').get()
+//Express init
+const express = require('express');
+const app = express();
+
+
+app.get('/quacks',(req, res) =>{
+    admin
+    .firestore()
+    .collection('quacks')
+    .orderBy('created','desc')
+    .get()
     .then(data => {
         let quacks = [];
         data.forEach(doc => {
-            quacks.push(doc.data());
+            quacks.push({
+                quackId: doc.id,
+                body: doc.body,
+                userNN: doc.data().userNN,
+                created: doc.data().created
+            });
         });
         return res.json(quacks);
     })
     .catch(err => console.error(err)); 
-});
+})
 
-exports.createQuack =  functions.https.onRequest((req,res) => {
-    if(req.method !== 'POST'){
-        return res.status(400).json({error: "Method not allowed!"});
-    }
+app.post('/quacks/create',(req,res) => {
     const newQuack = {
         body: req.body.body,
         userNN: req.body.userNN,
-        created: admin.firestore.Timestamp.fromDate(new Date())
+        created: new Date().toISOString()
     };
     admin.firestore()
     .collection('quacks')
@@ -40,4 +45,8 @@ exports.createQuack =  functions.https.onRequest((req,res) => {
         res.status(500).json({error: 'Something went wrong!'});
         console.error(err);
     });
-});
+})
+
+
+
+exports.api = functions.https.onRequest(app);
