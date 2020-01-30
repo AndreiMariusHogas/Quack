@@ -18,6 +18,14 @@ let db = {
             likeCount: 5,
             commentCount: 2
         }
+    ],
+    comments: [
+        {
+            userNN: 'user',
+            quackId: 'ksdaskdaskdaksdka',
+            body: 'First try is the lucky one',
+            created: '2020-01-28T17:40:25.407Z'
+        }
     ]
 }
 

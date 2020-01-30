@@ -27,6 +27,7 @@ module.exports = (req, res, next) => {
       //Add usernickname to request
       .then((data) => {
         req.user.nickname = data.docs[0].data().nickname;
+        req.user.imageUrl = data.docs[0].data().imageUrl;
         return next();
       })
       .catch((err) => {

@@ -7,6 +7,8 @@ const app = express();
 //Quacks
 const { getAllQuacks } = require('./handlers/quacks');
 const { postOneQuack } = require('./handlers/quacks');
+const { getQuack } = require('./handlers/quacks');
+const { commentOnQuack } = require('./handlers/quacks');
 //Users
 const { signup } = require('./handlers/users');
 const { login } = require('./handlers/users');
@@ -21,6 +23,10 @@ const isLoggedIn = require('./utility/isLoggedIn');
 app.get('/quacks', getAllQuacks);
 //Create new quack route
 app.post('/quack', isLoggedIn , postOneQuack);
+//Get One Quack
+app.get('/quack/:quackId', getQuack);
+//Comment on Quack
+app.post('/quack/:quackId/comment', isLoggedIn, commentOnQuack)
 
 //User
 //Signup Route
