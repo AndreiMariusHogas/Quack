@@ -105,7 +105,7 @@ app.post('/signup', (req,res) => {
         return res.status(400).json({errors});
     }
     
-    
+    //Add to db and return access token
     let token,userId;
     db.doc(`/users/${newUser.nickname}`)
     .get()
@@ -142,6 +142,39 @@ app.post('/signup', (req,res) => {
         } else {
             return res.status(500).json({ error: err.code});
         }
+    })
+});
+
+app.post('/login', (req,res) => {
+    const user = {
+        email: req.body.email,
+        password: req.body.password
+    }
+    //Validation
+    let errors = {}
+    if(isEmpty(user.email)) {
+        errors.email = "Fill in your email";
+    }
+    if(isEmpty(user.password)) {
+        errors.password = "Fill in your password";
+    }
+    if(Object.keys(errors).length > 0){
+        return res.status(400).json({errors});
+    }
+    //Authentication
+    firebase.auth().signInWithEmailAndPassword(user.email,user.password)
+    .then(data => {
+        return data.user.getIdToken();
+    })
+    .then(token => {
+        return res.json({token});
+    })
+    .catch(err => {
+        console.error(err);
+        if(err.code === 'auth/wrong-password'){
+            return res.status(403).json({general: 'Login failed, wrong credentials. Please try again'});
+        }
+        return res.status(500).json({error: err.code});
     })
 })
 
