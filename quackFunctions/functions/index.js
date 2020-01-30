@@ -29,7 +29,7 @@ app.get('/quacks',(req, res) =>{
     .catch(err => console.error(err)); 
 })
 
-app.post('/quacks/create',(req,res) => {
+app.post('/quack/new',(req,res) => {
     const newQuack = {
         body: req.body.body,
         userNN: req.body.userNN,
@@ -45,8 +45,8 @@ app.post('/quacks/create',(req,res) => {
         res.status(500).json({error: 'Something went wrong!'});
         console.error(err);
     });
-})
+});
 
 
 
-exports.api = functions.https.onRequest(app);
+exports.api = functions.region('europe-west1').https.onRequest(app);
