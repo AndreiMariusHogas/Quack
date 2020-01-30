@@ -11,6 +11,8 @@ const { postOneQuack } = require('./handlers/quacks');
 const { signup } = require('./handlers/users');
 const { login } = require('./handlers/users');
 const { uploadImage } = require('./handlers/users');
+const { addUserDetails } = require('./handlers/users');
+const { getAuthenticatedUser }= require('./handlers/users');
 //Functions 
 const isLoggedIn = require('./utility/isLoggedIn');
 //Routes
@@ -27,6 +29,10 @@ app.post('/signup', signup);
 app.post('/login', login);
 //Image Upload
 app.post('/user/image', isLoggedIn, uploadImage);
+//Edit User Profile
+app.post('/user', isLoggedIn, addUserDetails);
+//Get User Profile
+app.get('/user', isLoggedIn, getAuthenticatedUser);
 
 
 

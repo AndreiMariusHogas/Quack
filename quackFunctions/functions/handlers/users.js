@@ -7,7 +7,8 @@ firebase.initializeApp(firebaseConfig);
 
 const { validateSignupData } = require('../utility/validators');
 const { validateLoginData } = require('../utility/validators');
-
+const { reduceUserDetails } = require('../utility/validators');
+//Sign Up
 exports.signup = (req,res) => {
     const newUser = {
         email: req.body.email,
@@ -62,7 +63,7 @@ exports.signup = (req,res) => {
         }
     })
 }
-
+//Login
 exports.login = (req,res) => {
     const user = {
         email: req.body.email,
@@ -88,7 +89,7 @@ exports.login = (req,res) => {
         return res.status(500).json({error: err.code});
     })
 }
-
+//Add Avatar
 exports.uploadImage = (req, res) => {
     const BusBoy = require('busboy');
     const path = require('path');
@@ -142,3 +143,41 @@ exports.uploadImage = (req, res) => {
     });
     busboy.end(req.rawBody);
   };
+//Add profile details
+exports.addUserDetails = (req, res) => {
+    let userDetails = reduceUserDetails(req.body);
+  
+    db.doc(`/users/${req.user.nickname}`)
+      .update(userDetails)
+      .then(() => {
+        return res.json({ message: 'Details added successfully' });
+      })
+      .catch((err) => {
+        console.error(err);
+        return res.status(500).json({ error: err.code });
+      });
+};
+
+//Get Signed In User Details
+exports.getAuthenticatedUser = (req, res) => {
+    let userData = {};
+    db.doc(`/users/${req.user.nickname}`)
+    .get()
+    .then((doc) => {
+        if (doc.exists) {
+            userData.credentials = doc.data();
+            return db.collection('likes').where('userNN', '==', req.user.nickname).get();
+        }
+    })
+    .then(data => {
+        userData.likes = [];
+        data.forEach(doc => {
+            userData.likes.push(doc.data());
+        })
+        return res.json(userData);
+    })
+    .catch((err)=>{
+        console.error(err);
+        return res.status(500).json({error:err.code});
+    })
+}
