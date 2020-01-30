@@ -24,9 +24,54 @@ const firebase = require('firebase');
 firebase.initializeApp(firebaseConfig);
 const db = admin.firestore();
 
+//Functions 
+
+const isLoggedIn = (req, res, next) => {
+    let idToken;
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith('Bearer ')
+    ) {
+      idToken = req.headers.authorization.split('Bearer ')[1];
+    } else {
+      console.error('No token found');
+      return res.status(403).json({ error: 'Unauthorized' });
+    }
+  
+    admin
+      .auth()
+      .verifyIdToken(idToken)
+      .then((decodedToken) => {
+        req.user = decodedToken;
+        return db
+          .collection('users')
+          .where('userId', '==', req.user.uid)
+          .limit(1)
+          .get();
+      })
+      .then((data) => {
+        req.user.nickname = data.docs[0].data().nickname;
+        return next();
+      })
+      .catch((err) => {
+        console.error('Error while verifying token ', err);
+        return res.status(403).json(err);
+      });
+  };
+
+//Validation Helper Functions
+const isEmpty = (string) => {
+    if(string.trim() === '') return true;
+    else return false;
+}
+const isEmail = (email) => {
+    const regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(email.match(regEx)) return true;
+    else return false;
+}
 
 //Get all Quacks Route
-app.get('/quacks',(req, res) =>{
+app.get('/quacks', (req, res) =>{
     db
     .collection('quacks')
     .orderBy('created','desc')
@@ -47,10 +92,10 @@ app.get('/quacks',(req, res) =>{
 })
 
 //Create new quack route
-app.post('/quack/new',(req,res) => {
+app.post('/quack', isLoggedIn , (req,res) => {
     const newQuack = {
         body: req.body.body,
-        userNN: req.body.userNN,
+        userNN: req.user.nickname,
         created: new Date().toISOString()
     };
     db
@@ -65,16 +110,7 @@ app.post('/quack/new',(req,res) => {
     });
 });
 
-//Validation Helper Functions
-const isEmpty = (string) => {
-    if(string.trim() === '') return true;
-    else return false;
-}
-const isEmail = (email) => {
-    const regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if(email.match(regEx)) return true;
-    else return false;
-}
+
 
 //Signup Route
 app.post('/signup', (req,res) => {
