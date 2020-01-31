@@ -67,7 +67,7 @@ exports.createNotificationOnLike = functions.region('europe-west1').firestore.do
 .onCreate((like) => {
     db.doc(`/quacks/${like.data().quackId}`).get()
     .then((doc) => {
-        if(doc.exists){
+        if(doc.exists && doc.data().userNN !== like.data().userNN){
             return db.doc(`/notifications/${like.id}`)
             .set({
                 created: new Date().toISOString(),
@@ -77,12 +77,8 @@ exports.createNotificationOnLike = functions.region('europe-west1').firestore.do
                 read: false,
                 quackId: doc.id
             })
-            .then(()=>{
-                return;
-            })
             .catch((err) => {
                 console.error(err);
-                return;
             })
         }
     })
@@ -104,7 +100,7 @@ exports.createNotificationOnComment = functions.region('europe-west1').firestore
 .onCreate((comment) => {
     db.doc(`/quacks/${comment.data().quackId}`).get()
     .then((doc) => {
-        if(doc.exists){
+        if(doc.exists && doc.data().userNN !== comment.data().userNN){
             return db.doc(`/notifications/${comment.id}`)
             .set({
                 created: new Date().toISOString(),
@@ -113,9 +109,6 @@ exports.createNotificationOnComment = functions.region('europe-west1').firestore
                 type: 'comment',
                 read: false,
                 quackId: doc.id
-            })
-            .then(()=> {
-                return;
             })
             .catch((err)=> {
                 console.error(err);
