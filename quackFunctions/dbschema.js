@@ -14,6 +14,7 @@ let db = {
         {
             userNN: 'user',
             body: 'this is the quack body',
+            userImage: 'image/dsadasda/dsadada',
             created: '2020-01-28T17:40:25.407Z',
             likeCount: 5,
             commentCount: 2

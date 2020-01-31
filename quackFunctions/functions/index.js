@@ -9,6 +9,9 @@ const { getAllQuacks } = require('./handlers/quacks');
 const { postOneQuack } = require('./handlers/quacks');
 const { getQuack } = require('./handlers/quacks');
 const { commentOnQuack } = require('./handlers/quacks');
+const { likeQuack } = require('./handlers/quacks');
+const { unlikeQuack } = require('./handlers/quacks');
+const { deleteQuack } = require('./handlers/quacks');
 //Users
 const { signup } = require('./handlers/users');
 const { login } = require('./handlers/users');
@@ -26,8 +29,13 @@ app.post('/quack', isLoggedIn , postOneQuack);
 //Get One Quack
 app.get('/quack/:quackId', getQuack);
 //Comment on Quack
-app.post('/quack/:quackId/comment', isLoggedIn, commentOnQuack)
-
+app.post('/quack/:quackId/comment', isLoggedIn, commentOnQuack);
+//Like Quack
+app.get('/quack/:quackId/like', isLoggedIn, likeQuack);
+//Unlike Quack
+app.post('/quack/:quackId/unlike', isLoggedIn, unlikeQuack);
+//Delete Quack
+app.delete('/quack/:quackId', isLoggedIn, deleteQuack);
 //User
 //Signup Route
 app.post('/signup', signup);
