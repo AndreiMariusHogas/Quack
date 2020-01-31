@@ -174,10 +174,83 @@ exports.getAuthenticatedUser = (req, res) => {
         data.forEach(doc => {
             userData.likes.push(doc.data());
         })
+        return db.collection('notifications').where('recipient', '==', req.user.nickname)
+        .orderBy('created','desc')
+        .get()
+    })
+    .then((data) => {
+        userData.notifications = [];
+        data.forEach((doc)=>{
+          userData.notifications.push({
+            recipient: doc.data().recipient,
+            sender: doc.data().sender,
+            read: doc.data().read,
+            quackId: doc.data().quackId,
+            type: doc.data().type,
+            created: doc.data().created,
+            notificationId: doc.id
+          })
+        });
         return res.json(userData);
     })
     .catch((err)=>{
         console.error(err);
         return res.status(500).json({error:err.code});
     })
+}
+
+//Get user profile (Unauthenticated)
+
+exports.getUserDetails = (req,res) => {
+  let userData = {};
+  db.doc(`/users/${req.params.nickname}`)
+  .get()
+  .then((doc) => {
+    if(doc.exists){
+      userData.user = doc.data();
+      return db
+      .collection('quacks')
+      .where('userNN','==', req.params.nickname)
+      .orderBy('created','desc')
+      .get();
+    } else {
+      return res.status(404).json({error: 'User not found'});
+    }
+  })
+  .then((data) => {
+    userData.quacks = [];
+    data.forEach((doc) => {
+      userData.quacks.push({
+          body: doc.data().body,
+          createdAt: doc.data().created,
+          userNN: doc.data().userNN,
+          userImage: doc.data().userImage,
+          likeCount: doc.data().likeCount,
+          commentCount: doc.data().commentCount,
+          quackId: doc.id
+      })
+    })
+    return res.json(userData);
+  })
+  .catch((err)=>{
+    console.error(err);
+    res.status(500).json({error:err.code});
+  })
+}
+
+exports.checkNotificationsRead = (req, res) => {
+  let batch = db.batch();
+  req.body.forEach((notificationId) => {
+    const notification = db.doc(`/notifications/${notificationId}`);
+    batch.update(notification, {read:true});
+  });
+  batch
+  .commit()
+  .then(()=> {
+    return res.json({ message: 'Notifications checked as read'});
+  })
+  .catch((err) => {
+    console.error(err);
+    return res.status(500).json({error:err.code});
+  })
 }

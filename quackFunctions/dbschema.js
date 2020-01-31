@@ -27,6 +27,16 @@ let db = {
             body: 'First try is the lucky one',
             created: '2020-01-28T17:40:25.407Z'
         }
+    ],
+    notifications: [
+        {
+            recipient: 'user',
+            sender: 'john doe',
+            read: 'true | false',
+            screamId: 'sdasadasdasfgjsa',
+            type: 'like | comment',
+            created: '2020-01-28T17:40:25.407Z'
+        }
     ]
 }
 
