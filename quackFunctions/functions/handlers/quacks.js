@@ -9,7 +9,7 @@ exports.getAllQuacks = (req, res) => {
       data.forEach(doc => {
         quacks.push({
           quackId: doc.id,
-          body: doc.body,
+          body: doc.data().body,
           userNN: doc.data().userNN,
           created: doc.data().created,
           commentCount: doc.data().commentCount,
