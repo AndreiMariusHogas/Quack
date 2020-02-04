@@ -3,6 +3,7 @@ import axios from "axios";
 import Grid from "@material-ui/core/Grid";
 
 import Quack from "../components/Quack";
+import Profile from "../components/Profile";
 
 export class home extends Component {
   state = {
@@ -28,11 +29,11 @@ export class home extends Component {
     );
     return (
       <Grid container spacing={2}>
+        <Grid item sm={4} xs={12}>
+          <Profile />
+        </Grid>
         <Grid item sm={8} xs={12}>
           {recentQuacksMarkup}
-        </Grid>
-        <Grid item sm={4} xs={12}>
-          <p>Profile..</p>
         </Grid>
       </Grid>
     );

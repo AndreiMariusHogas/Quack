@@ -5,9 +5,6 @@ import PropTypes from "prop-types";
 import AppLogo from "../images/quackLogo.png";
 import { Link } from "react-router-dom";
 
-//Axios
-import axios from "axios";
-
 //MaterialUI imports
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
