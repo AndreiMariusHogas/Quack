@@ -28,7 +28,7 @@ export class home extends Component {
       <p>Loading...</p>
     );
     return (
-      <Grid container spacing={2}>
+      <Grid container spacing={4}>
         <Grid item sm={4} xs={12}>
           <Profile />
         </Grid>

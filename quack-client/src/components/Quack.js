@@ -21,11 +21,10 @@ const styles = {
     marginBottom: 16
   },
   image: {
-    minWidth: 150,
-    minHeight: 150
+    minWidth: 100,
+    minHeight: 100
   },
   content: {
-    padding: 25,
     marginLeft: 10
   }
 };

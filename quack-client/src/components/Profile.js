@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import theme from "../util/theme";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+import EditDetails from "./EditDetails";
 
 //Material UI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -19,6 +20,7 @@ import LocationOn from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 import EditIcon from "@material-ui/icons/Edit";
+import NoMeetingRoom from "@material-ui/icons/NoMeetingRoom";
 
 //Redux
 import { connect } from "react-redux";
@@ -83,6 +85,9 @@ export class Profile extends Component {
     const fileInput = document.getElementById("imageUpload");
     fileInput.click();
   };
+  handleLogout = () => {
+    this.props.logoutUser();
+  };
   render() {
     const {
       classes,
@@ -143,6 +148,12 @@ export class Profile extends Component {
               <CalendarToday color="primary" /> {"  "}
               <span>Joined {dayjs(created).format("MMM YYYY")}</span>
             </div>
+            <Tooltip title="Logout" placement="top">
+              <IconButton onClick={this.handleLogout}>
+                <NoMeetingRoom color="primary" />
+              </IconButton>
+            </Tooltip>
+            <EditDetails />
           </div>
         </Paper>
       ) : (
