@@ -2,6 +2,9 @@ const functions = require("firebase-functions");
 //Express init
 const express = require("express");
 const app = express();
+//Cors
+const cors = require("cors");
+app.use(cors());
 //Database
 const { db } = require("./utility/admin");
 //Import Handlers
