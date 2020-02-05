@@ -7,6 +7,7 @@ import {
   LOADING_USER
 } from "../types";
 import axios from "axios";
+
 axios.defaults.baseURL =
   "https://europe-west1-quack-1d8e3.cloudfunctions.net/api";
 

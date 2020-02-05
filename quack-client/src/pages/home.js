@@ -1,29 +1,22 @@
+//React
 import React, { Component } from "react";
-import axios from "axios";
 import Grid from "@material-ui/core/Grid";
-
+import PropTypes from "prop-types";
+//Components
 import Quack from "../components/Quack";
 import Profile from "../components/Profile";
+//Redux
+import { connect } from "react-redux";
+import { getQuacks } from "../redux/actions/dataActions";
 
 export class home extends Component {
-  state = {
-    quacks: null
-  };
   componentDidMount() {
-    axios
-      .get("/quacks")
-      .then(res => {
-        this.setState({
-          quacks: res.data
-        });
-      })
-      .catch(err => console.log(err));
+    this.props.getQuacks();
   }
   render() {
-    let recentQuacksMarkup = this.state.quacks ? (
-      this.state.quacks.map(quack => (
-        <Quack key={quack.created} quack={quack} />
-      ))
+    const { quacks, loading } = this.props.data;
+    let recentQuacksMarkup = !loading ? (
+      quacks.map(quack => <Quack key={quack.created} quack={quack} />)
     ) : (
       <p>Loading...</p>
     );
@@ -40,4 +33,13 @@ export class home extends Component {
   }
 }
 
-export default home;
+home.propTypes = {
+  getQuacks: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  data: state.data
+});
+
+export default connect(mapStateToProps, { getQuacks })(home);
