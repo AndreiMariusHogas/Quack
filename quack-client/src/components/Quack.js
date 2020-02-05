@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 //Components
 import MyButton from "../util/MyButton";
 import DeleteQuack from "./DeleteQuack";
+import QuackDialog from "./QuackDialog";
 
 //Material UI imports
 import Card from "@material-ui/core/Card";
@@ -123,6 +124,7 @@ export class Quack extends Component {
             <ChatIcon color="primary" />
           </MyButton>
           <span>{commentCount} Comments</span>
+          <QuackDialog quackId={quackId} userNN={userNN} />
         </CardContent>
       </Card>
     );

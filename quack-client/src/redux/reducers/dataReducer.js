@@ -4,7 +4,8 @@ import {
   LIKE_QUACK,
   UNLIKE_QUACK,
   DELETE_QUACK,
-  POST_QUACK
+  POST_QUACK,
+  SET_QUACK
 } from "../types";
 
 const initialState = {
@@ -25,6 +26,11 @@ export default function(state = initialState, action) {
         ...state,
         quacks: action.payload,
         loading: false
+      };
+    case SET_QUACK:
+      return {
+        ...state,
+        quack: action.payload
       };
     case POST_QUACK:
       return {

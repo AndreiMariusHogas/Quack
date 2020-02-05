@@ -15,7 +15,7 @@ import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 //Redux
 import { connect } from "react-redux";
-import { postQuack } from "../redux/actions/dataActions";
+import { postQuack, clearErrors } from "../redux/actions/dataActions";
 
 const styles = {
   textField: {
@@ -23,7 +23,8 @@ const styles = {
   },
   submitButton: {
     position: "relative",
-    marginTop: "1rem"
+    margin: "1rem 0 1rem 0",
+    float: "right"
   },
   progressSpinner: {
     position: "absolute"
@@ -48,14 +49,14 @@ class PostQuack extends Component {
       });
     }
     if (!nextProps.UI.errors && !nextProps.UI.loading) {
-      this.setState({ body: "" });
-      this.handleClose();
+      this.setState({ body: "", open: false, errors: {} });
     }
   }
   handleOpen = () => {
     this.setState({ open: true });
   };
   handleClose = () => {
+    this.props.clearErrors();
     this.setState({ open: false, errors: {} });
   };
   handleChange = event => {
@@ -130,12 +131,13 @@ class PostQuack extends Component {
 
 PostQuack.propTypes = {
   postQuack: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   UI: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
   UI: state.UI
 });
 
-export default connect(mapStateToProps, { postQuack })(
+export default connect(mapStateToProps, { postQuack, clearErrors })(
   withStyles(styles)(PostQuack)
 );
