@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 //Components
-import MyButton from "../util/MyButton";
+import MyButton from "../../util/MyButton";
 import DeleteQuack from "./DeleteQuack";
 import QuackDialog from "./QuackDialog";
 import LikeButton from "./LikeButton";

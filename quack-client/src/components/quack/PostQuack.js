@@ -1,7 +1,7 @@
 //React
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import MyButton from "../util/MyButton";
+import MyButton from "../../util/MyButton";
 //MaterialUI
 import withStyles from "@material-ui/core/styles/withStyles";
 import Button from "@material-ui/core/Button";
@@ -15,7 +15,7 @@ import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 //Redux
 import { connect } from "react-redux";
-import { postQuack, clearErrors } from "../redux/actions/dataActions";
+import { postQuack, clearErrors } from "../../redux/actions/dataActions";
 
 const styles = {
   textField: {

@@ -3,8 +3,8 @@ import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 //Components
-import MyButton from "../util/MyButton";
-import PostQuack from "./PostQuack";
+import MyButton from "../../util/MyButton";
+import PostQuack from "../quack/PostQuack";
 //Material UI imports
 import AppBar from "@material-ui/core/AppBar";
 import ToolBar from "@material-ui/core/Toolbar";

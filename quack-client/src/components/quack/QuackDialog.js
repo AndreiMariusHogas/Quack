@@ -4,8 +4,10 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 //Components
-import MyButton from "../util/MyButton";
+import MyButton from "../../util/MyButton";
 import LikeButton from "./LikeButton";
+import Comments from "./Comments";
+
 //MaterialUI
 import withStyles from "@material-ui/core/styles/withStyles";
 import Dialog from "@material-ui/core/Dialog";
@@ -21,7 +23,7 @@ import ChatIcon from "@material-ui/icons/Chat";
 
 //Redux
 import { connect } from "react-redux";
-import { getQuack } from "../redux/actions/dataActions";
+import { getQuack } from "../../redux/actions/dataActions";
 
 //Extra Tools
 import dayjs from "dayjs";
@@ -52,6 +54,11 @@ const styles = {
     textAlign: "center",
     marginTop: 50,
     marginBottom: 50
+  },
+  visSeparator: {
+    width: "100%",
+    borderBottom: "1px solid rgba(0,0,0,0.1)",
+    marginBottom: "20px"
   }
 };
 
@@ -76,7 +83,8 @@ class QuackDialog extends Component {
         likeCount,
         commentCount,
         userImage,
-        userNN
+        userNN,
+        comments
       },
       UI: { loading }
     } = this.props;
@@ -111,6 +119,9 @@ class QuackDialog extends Component {
           </MyButton>
           <span>{commentCount} Comments</span>
         </Grid>
+        {/* toDO: comment Input */}
+        <hr className={classes.visSeparator} />
+        <Comments comments={comments} />
       </Grid>
     );
     return (

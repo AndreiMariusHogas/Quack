@@ -2,7 +2,7 @@
 import React, { Component, Fragment } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
-import MyButton from "../util/MyButton";
+import MyButton from "../../util/MyButton";
 //Material UI imports
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -12,7 +12,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DeleteOutline from "@material-ui/icons/DeleteOutline";
 //Redux
 import { connect } from "react-redux";
-import { deleteQuack } from "../redux/actions/dataActions";
+import { deleteQuack } from "../../redux/actions/dataActions";
 
 const styles = {
   warning: {

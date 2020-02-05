@@ -1,11 +1,11 @@
 //React
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import theme from "../util/theme";
+import theme from "../../util/theme";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import EditDetails from "./EditDetails";
-import MyButton from "../util/MyButton";
+import MyButton from "../../util/MyButton";
 
 //Material UI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -23,7 +23,7 @@ import EditIcon from "@material-ui/icons/Edit";
 
 //Redux
 import { connect } from "react-redux";
-import { logoutUser, uploadImage } from "../redux/actions/userActions";
+import { logoutUser, uploadImage } from "../../redux/actions/userActions";
 
 const styles = {
   paper: {

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 //Components
-import MyButton from "../util/MyButton";
+import MyButton from "../../util/MyButton";
 
 //Icons
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
@@ -12,7 +12,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 
 //Redux
 import { connect } from "react-redux";
-import { likeQuack, unlikeQuack } from "../redux/actions/dataActions";
+import { likeQuack, unlikeQuack } from "../../redux/actions/dataActions";
 
 export class LikeButton extends Component {
   likedQuack = () => {

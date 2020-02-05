@@ -3,8 +3,8 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
 //Components
-import Quack from "../components/Quack";
-import Profile from "../components/Profile";
+import Quack from "../components/quack/Quack";
+import Profile from "../components/profile/Profile";
 //Redux
 import { connect } from "react-redux";
 import { getQuacks } from "../redux/actions/dataActions";
