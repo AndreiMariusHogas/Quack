@@ -3,7 +3,11 @@ import {
   LOADING_DATA,
   LIKE_QUACK,
   UNLIKE_QUACK,
-  DELETE_QUACK
+  DELETE_QUACK,
+  LOADING_UI,
+  POST_QUACK,
+  SET_ERRORS,
+  CLEAR_ERRORS
 } from "../types";
 import axios from "axios";
 
@@ -27,6 +31,29 @@ export const getQuacks = () => dispatch => {
         payload: []
       });
     });
+};
+//Add a post
+export const postQuack = newQuack => dispatch => {
+  dispatch({
+    type: LOADING_UI
+  });
+  axios
+    .post("/quack", newQuack)
+    .then(res => {
+      dispatch({
+        type: POST_QUACK,
+        payload: res.data
+      });
+      dispatch({
+        type: CLEAR_ERRORS
+      });
+    })
+    .catch(err =>
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data
+      })
+    );
 };
 //Like a post
 export const likeQuack = quackId => dispatch => {

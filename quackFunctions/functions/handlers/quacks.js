@@ -23,6 +23,10 @@ exports.getAllQuacks = (req, res) => {
 };
 
 exports.postOneQuack = (req, res) => {
+  if (req.body.body.trim() === "") {
+    return res.status(400).json({ body: "Body must not be empty" });
+  }
+
   const newQuack = {
     body: req.body.body,
     userNN: req.user.nickname,
@@ -197,14 +201,6 @@ exports.unlikeQuack = (req, res) => {
 exports.deleteQuack = (req, res) => {
   //Post to delete
   const document = db.doc(`/quacks/${req.params.quackId}`);
-  //Associated likes
-  const likeDocument = db
-    .collection("likes")
-    .where("quackId", "==", req.params.quackId);
-  //Associated comments
-  const commentDocument = db
-    .collection("comments")
-    .where("quackId", "==", req.params.quackId);
 
   document
     .get()
