@@ -215,32 +215,9 @@ exports.deleteQuack = (req, res) => {
       if (doc.data().userNN !== req.user.nickname) {
         return res.status(403).json({ error: "Unauthorized" });
       } else {
-        return likeDocument.get();
-      }
-    })
-    //Delete Likes
-    .then(data => {
-      if (data.empty) {
-        return res.status(400).json({ error: "No likes found" });
-      } else {
-        for (let i = 0; i < data.docs.length; i++) {
-          db.doc(`/likes/${data.docs[i].id}`).delete();
-        }
-        return commentDocument.get();
-      }
-    })
-    //Delete Comments
-    .then(data => {
-      if (data.empty) {
-        return res.status(400).json({ error: "No comments found" });
-      } else {
-        for (let i = 0; i < data.docs.length; i++) {
-          db.doc(`/comments/${data.docs[i].id}`).delete();
-        }
         return document.delete();
       }
     })
-    //Delete Post
     .then(() => {
       res.json({ message: "Quack deleted succesfully" });
     })

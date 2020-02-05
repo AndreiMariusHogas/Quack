@@ -1,4 +1,10 @@
-import { SET_QUACKS, LOADING_DATA, LIKE_QUACK, UNLIKE_QUACK } from "../types";
+import {
+  SET_QUACKS,
+  LOADING_DATA,
+  LIKE_QUACK,
+  UNLIKE_QUACK,
+  DELETE_QUACK
+} from "../types";
 
 const initialState = {
   quacks: [],
@@ -25,6 +31,14 @@ export default function(state = initialState, action) {
         quack => quack.quackId === action.payload.quackId
       );
       state.quacks[index] = action.payload;
+      return {
+        ...state
+      };
+    case DELETE_QUACK:
+      let delIndex = state.quacks.findIndex(
+        quack => quack.quackId === action.payload
+      );
+      state.quacks.splice(delIndex, 1);
       return {
         ...state
       };

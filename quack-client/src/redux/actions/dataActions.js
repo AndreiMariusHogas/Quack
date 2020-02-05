@@ -1,4 +1,10 @@
-import { SET_QUACKS, LOADING_DATA, LIKE_QUACK, UNLIKE_QUACK } from "../types";
+import {
+  SET_QUACKS,
+  LOADING_DATA,
+  LIKE_QUACK,
+  UNLIKE_QUACK,
+  DELETE_QUACK
+} from "../types";
 import axios from "axios";
 
 axios.defaults.baseURL =
@@ -43,6 +49,15 @@ export const unlikeQuack = quackId => dispatch => {
         type: UNLIKE_QUACK,
         payload: res.data
       });
+    })
+    .catch(err => console.log(err));
+};
+//Delete post
+export const deleteQuack = quackId => dispatch => {
+  axios
+    .delete(`/quack/${quackId}`)
+    .then(() => {
+      dispatch({ type: DELETE_QUACK, payload: quackId });
     })
     .catch(err => console.log(err));
 };

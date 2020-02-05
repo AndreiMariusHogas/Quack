@@ -3,7 +3,10 @@ import React, { Component } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+
+//Components
 import MyButton from "../util/MyButton";
+import DeleteQuack from "./DeleteQuack";
 
 //Material UI imports
 import Card from "@material-ui/core/Card";
@@ -26,6 +29,7 @@ import { likeQuack, unlikeQuack } from "../redux/actions/dataActions";
 
 const styles = {
   card: {
+    position: "relative",
     display: "flex",
     marginBottom: 16
   },
@@ -70,7 +74,10 @@ export class Quack extends Component {
         likeCount,
         commentCount
       },
-      user: { authenticated }
+      user: {
+        authenticated,
+        credentials: { nickname }
+      }
     } = this.props;
     const likeButton = !authenticated ? (
       <MyButton tip="Like">
@@ -87,6 +94,10 @@ export class Quack extends Component {
         <FavoriteBorder color="primary" />
       </MyButton>
     );
+    const deleteButton =
+      authenticated && userNN === nickname ? (
+        <DeleteQuack quackId={quackId} />
+      ) : null;
     return (
       <Card className={classes.card}>
         <CardMedia
@@ -103,6 +114,7 @@ export class Quack extends Component {
           >
             {userNN}
           </Typography>
+          {deleteButton}
           <Typography variant="body2">{dayjs(created).fromNow()}</Typography>
           <Typography variant="body1">{body}</Typography>
           {likeButton}
