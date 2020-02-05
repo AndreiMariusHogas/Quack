@@ -43,6 +43,9 @@ export default function(state = initialState, action) {
         quack => quack.quackId === action.payload.quackId
       );
       state.quacks[index] = action.payload;
+      if (state.quack.quackId === action.payload.quackId) {
+        state.quack = action.payload;
+      }
       return {
         ...state
       };

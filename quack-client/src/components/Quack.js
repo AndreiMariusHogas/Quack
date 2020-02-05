@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import MyButton from "../util/MyButton";
 import DeleteQuack from "./DeleteQuack";
 import QuackDialog from "./QuackDialog";
+import LikeButton from "./LikeButton";
 
 //Material UI imports
 import Card from "@material-ui/core/Card";
@@ -18,15 +19,13 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 //Icons
 import ChatIcon from "@material-ui/icons/Chat";
-import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
-import FavoriteIcon from "@material-ui/icons/Favorite";
+
 //Extra tools
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 //Redux
 import { connect } from "react-redux";
-import { likeQuack, unlikeQuack } from "../redux/actions/dataActions";
 
 const styles = {
   card: {
@@ -44,24 +43,6 @@ const styles = {
 };
 
 export class Quack extends Component {
-  likedQuack = () => {
-    if (
-      this.props.user.likes &&
-      this.props.user.likes.find(
-        like => like.quackId === this.props.quack.quackId
-      )
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-  likeQuack = () => {
-    this.props.likeQuack(this.props.quack.quackId);
-  };
-  unlikeQuack = () => {
-    this.props.unlikeQuack(this.props.quack.quackId);
-  };
   render() {
     dayjs.extend(relativeTime);
     const {
@@ -80,21 +61,7 @@ export class Quack extends Component {
         credentials: { nickname }
       }
     } = this.props;
-    const likeButton = !authenticated ? (
-      <MyButton tip="Like">
-        <Link to="/login">
-          <FavoriteBorder color="primary" />
-        </Link>
-      </MyButton>
-    ) : this.likedQuack() ? (
-      <MyButton tip="Undo like" onClick={this.unlikeQuack}>
-        <FavoriteIcon color="primary" />
-      </MyButton>
-    ) : (
-      <MyButton tip="Like" onClick={this.likeQuack}>
-        <FavoriteBorder color="primary" />
-      </MyButton>
-    );
+
     const deleteButton =
       authenticated && userNN === nickname ? (
         <DeleteQuack quackId={quackId} />
@@ -118,7 +85,7 @@ export class Quack extends Component {
           {deleteButton}
           <Typography variant="body2">{dayjs(created).fromNow()}</Typography>
           <Typography variant="body1">{body}</Typography>
-          {likeButton}
+          <LikeButton quackId={quackId} />
           <span>{likeCount} Likes </span>
           <MyButton tip="Comments">
             <ChatIcon color="primary" />
@@ -132,8 +99,6 @@ export class Quack extends Component {
 }
 
 Quack.propTypes = {
-  likeQuack: PropTypes.func.isRequired,
-  unlikeQuack: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   quack: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired
@@ -142,12 +107,5 @@ Quack.propTypes = {
 const mapStateToProps = state => ({
   user: state.user
 });
-const mapActionsToProps = {
-  likeQuack,
-  unlikeQuack
-};
 
-export default connect(
-  mapStateToProps,
-  mapActionsToProps
-)(withStyles(styles)(Quack));
+export default connect(mapStateToProps)(withStyles(styles)(Quack));

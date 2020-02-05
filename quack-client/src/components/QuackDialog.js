@@ -5,12 +5,11 @@ import { Link } from "react-router-dom";
 
 //Components
 import MyButton from "../util/MyButton";
-
+import LikeButton from "./LikeButton";
 //MaterialUI
 import withStyles from "@material-ui/core/styles/withStyles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -18,6 +17,7 @@ import Typography from "@material-ui/core/Typography";
 //Icons
 import CloseIcon from "@material-ui/icons/Close";
 import UnfoldMore from "@material-ui/icons/UnfoldMore";
+import ChatIcon from "@material-ui/icons/Chat";
 
 //Redux
 import { connect } from "react-redux";
@@ -32,8 +32,8 @@ const styles = {
     margin: 4
   },
   profileImage: {
-    maxWidth: 150,
-    maxHeight: 150,
+    width: 150,
+    height: 150,
     borderRadius: "50%",
     objectFit: "cover"
   },
@@ -43,6 +43,15 @@ const styles = {
   closeButton: {
     position: "absolute",
     left: "90%"
+  },
+  expandButton: {
+    position: "absolute",
+    left: "90%"
+  },
+  spinnerDiv: {
+    textAlign: "center",
+    marginTop: 50,
+    marginBottom: 50
   }
 };
 
@@ -72,9 +81,11 @@ class QuackDialog extends Component {
       UI: { loading }
     } = this.props;
     const dialogMarkup = loading ? (
-      <CircularProgress size={100} />
+      <div className={classes.spinnerDiv}>
+        <CircularProgress size={100} thickness={3} />
+      </div>
     ) : (
-      <Grid container spacing={16}>
+      <Grid container spacing={2}>
         <Grid item sm={5}>
           <img src={userImage} alt="Profile" className={classes.profileImage} />
         </Grid>
@@ -93,6 +104,12 @@ class QuackDialog extends Component {
           </Typography>
           <hr className={classes.separator} />
           <Typography variant="body1">{body}</Typography>
+          <LikeButton quackId={quackId} />
+          <span>{likeCount} likes</span>
+          <MyButton tip="Comments">
+            <ChatIcon color="primary" />
+          </MyButton>
+          <span>{commentCount} Comments</span>
         </Grid>
       </Grid>
     );
