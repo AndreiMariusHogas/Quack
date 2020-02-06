@@ -12,8 +12,6 @@ import LikeButton from "./LikeButton";
 
 //Material UI imports
 import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
@@ -77,7 +75,7 @@ export class Quack extends Component {
           <Typography
             variant="h5"
             component={Link}
-            to={`/users/{userNN}`}
+            to={`/users/${userNN}`}
             color="primary"
           >
             {userNN}

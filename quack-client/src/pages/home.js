@@ -16,7 +16,7 @@ export class home extends Component {
   render() {
     const { quacks, loading } = this.props.data;
     let recentQuacksMarkup = !loading ? (
-      quacks.map(quack => <Quack key={quack.created} quack={quack} />)
+      quacks.map(quack => <Quack key={quack.quackId} quack={quack} />)
     ) : (
       <p>Loading...</p>
     );

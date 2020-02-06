@@ -33,6 +33,7 @@ const styles = {
 };
 
 class Comments extends Component {
+  state = {};
   render() {
     const { classes, comments } = this.props;
     return (

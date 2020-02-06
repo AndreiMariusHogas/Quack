@@ -5,7 +5,8 @@ import {
   UNLIKE_QUACK,
   DELETE_QUACK,
   POST_QUACK,
-  SET_QUACK
+  SET_QUACK,
+  SUBMIT_COMMENT
 } from "../types";
 
 const initialState = {
@@ -44,10 +45,18 @@ export default function(state = initialState, action) {
       );
       state.quacks[index] = action.payload;
       if (state.quack.quackId === action.payload.quackId) {
-        state.quack = action.payload;
+        state.quack = { ...state.quack, ...action.payload };
       }
       return {
         ...state
+      };
+    case SUBMIT_COMMENT:
+      return {
+        ...state,
+        quack: {
+          ...state.quack,
+          comments: [action.payload, ...state.quack.comments]
+        }
       };
     case DELETE_QUACK:
       let delIndex = state.quacks.findIndex(

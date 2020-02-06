@@ -9,7 +9,8 @@ import {
   SET_ERRORS,
   CLEAR_ERRORS,
   SET_QUACK,
-  STOP_LOADING_UI
+  STOP_LOADING_UI,
+  SUBMIT_COMMENT
 } from "../types";
 import axios from "axios";
 
@@ -60,9 +61,7 @@ export const postQuack = newQuack => dispatch => {
         type: POST_QUACK,
         payload: res.data
       });
-      dispatch({
-        type: CLEAR_ERRORS
-      });
+      dispatch(clearErrors());
     })
     .catch(err =>
       dispatch({
@@ -95,6 +94,19 @@ export const unlikeQuack = quackId => dispatch => {
     })
     .catch(err => console.log(err));
 };
+//Leave a comment
+export const submitComment = (quackId, commentData) => dispatch => {
+  axios
+    .post(`/quack/${quackId}/comment`, commentData)
+    .then(res => {
+      dispatch({ type: SUBMIT_COMMENT, payload: res.data });
+      dispatch(clearErrors());
+    })
+    .catch(err => {
+      dispatch({ type: SET_ERRORS, payload: err.response.data });
+      console.log(err);
+    });
+};
 //Delete post
 export const deleteQuack = quackId => dispatch => {
   axios
@@ -104,7 +116,23 @@ export const deleteQuack = quackId => dispatch => {
     })
     .catch(err => console.log(err));
 };
+//Get User Profile
+export const getUserProfile = userNN => dispatch => {
+  dispatch({ type: LOADING_DATA });
+  axios
+    .get(`/user/${userNN}`)
+    .then(res => {
+      dispatch({ type: SET_QUACKS, payload: res.data.quacks });
+    })
+    .catch(err => {
+      dispatch({
+        type: SET_QUACKS,
+        payload: null
+      });
+    });
+};
 
+//Clear errors
 export const clearErrors = () => dispatch => {
   dispatch({ type: CLEAR_ERRORS });
 };

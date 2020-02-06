@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import MyButton from "../../util/MyButton";
 import LikeButton from "./LikeButton";
 import Comments from "./Comments";
+import CommentForm from "./CommentForm";
 
 //MaterialUI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -23,7 +24,7 @@ import ChatIcon from "@material-ui/icons/Chat";
 
 //Redux
 import { connect } from "react-redux";
-import { getQuack } from "../../redux/actions/dataActions";
+import { getQuack, clearErrors } from "../../redux/actions/dataActions";
 
 //Extra Tools
 import dayjs from "dayjs";
@@ -72,6 +73,7 @@ class QuackDialog extends Component {
   };
   handleClose = () => {
     this.setState({ open: false });
+    this.props.clearErrors();
   };
   render() {
     const {
@@ -119,7 +121,7 @@ class QuackDialog extends Component {
           </MyButton>
           <span>{commentCount} Comments</span>
         </Grid>
-        {/* toDO: comment Input */}
+        <CommentForm quackId={quackId} />
         <hr className={classes.visSeparator} />
         <Comments comments={comments} />
       </Grid>
@@ -156,6 +158,7 @@ class QuackDialog extends Component {
 }
 
 QuackDialog.propTypes = {
+  clearErrors: PropTypes.func.isRequired,
   getQuack: PropTypes.func.isRequired,
   quackId: PropTypes.string.isRequired,
   userNN: PropTypes.string.isRequired,
@@ -168,7 +171,8 @@ const mapStateToProps = state => ({
   UI: state.UI
 });
 const mapActionsToProps = {
-  getQuack
+  getQuack,
+  clearErrors
 };
 
 export default connect(
