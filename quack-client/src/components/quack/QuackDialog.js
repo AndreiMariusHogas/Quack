@@ -65,13 +65,29 @@ const styles = {
 
 class QuackDialog extends Component {
   state = {
-    open: false
+    open: false,
+    oldPath: "",
+    newPath: ""
   };
+  componentDidMount() {
+    if (this.props.openDialog) {
+      this.handleOpen();
+    }
+  }
   handleOpen = () => {
-    this.setState({ open: true });
+    let oldPath = window.location.pathname;
+    const { userNN, quackId } = this.props;
+    const newPath = `/users/${userNN}/quack/${quackId}`;
+    if (oldPath.endsWith(quackId) === newPath.endsWith(quackId))
+      oldPath = `/users/${userNN}`;
+
+    window.history.pushState(null, null, newPath);
+
+    this.setState({ open: true, oldPath, newPath });
     this.props.getQuack(this.props.quackId);
   };
   handleClose = () => {
+    window.history.pushState(null, null, this.state.oldPath);
     this.setState({ open: false });
     this.props.clearErrors();
   };

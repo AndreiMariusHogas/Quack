@@ -5,13 +5,13 @@ import PropTypes from "prop-types";
 //Components
 import MyButton from "../../util/MyButton";
 import PostQuack from "../quack/PostQuack";
+import Notifications from "./Notifications";
 //Material UI imports
 import AppBar from "@material-ui/core/AppBar";
 import ToolBar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 //Icons
 import HomeIcon from "@material-ui/icons/Home";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 //Redux
 import { connect } from "react-redux";
 
@@ -29,9 +29,7 @@ export class Navbar extends Component {
                   <HomeIcon />
                 </MyButton>
               </Link>
-              <MyButton tip="Notifications">
-                <NotificationsIcon />
-              </MyButton>
+              <Notifications />
             </Fragment>
           ) : (
             <Fragment>

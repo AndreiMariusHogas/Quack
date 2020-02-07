@@ -89,7 +89,11 @@ export class Quack extends Component {
             <ChatIcon color="primary" />
           </MyButton>
           <span>{commentCount} Comments</span>
-          <QuackDialog quackId={quackId} userNN={userNN} />
+          <QuackDialog
+            quackId={quackId}
+            userNN={userNN}
+            openDialog={this.props.openDialog}
+          />
         </CardContent>
       </Card>
     );
@@ -99,7 +103,8 @@ export class Quack extends Component {
 Quack.propTypes = {
   user: PropTypes.object.isRequired,
   quack: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  openDialog: PropTypes.bool
 };
 
 const mapStateToProps = state => ({

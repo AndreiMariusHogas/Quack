@@ -157,7 +157,7 @@ export class Profile extends Component {
         </Paper>
       ) : (
         <Paper className={classes.paper}>
-          <Typography variant="body1" align="center">
+          <Typography variant="h6" align="center">
             No profile found, please login
             <div className={classes.buttons}>
               <Button

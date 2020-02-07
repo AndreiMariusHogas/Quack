@@ -24,11 +24,14 @@ const styles = {};
 
 export class user extends Component {
   state = {
-    profile: null
+    profile: null,
+    quackIdParam: null
   };
   componentDidMount() {
-    console.log(this.props.match.params);
     const nickname = this.props.match.params.nickname;
+    const quackId = this.props.match.params.quackId;
+
+    if (quackId) this.setState({ quackIdParam: quackId });
     this.props.getUserProfile(nickname);
     axios
       .get(`/user/${nickname}`)
@@ -41,12 +44,21 @@ export class user extends Component {
   }
   render() {
     const { quacks, loading } = this.props.data;
+    const { quackIdParam } = this.state;
     const quacksMarkup = loading ? (
       <p>Loading data...</p>
     ) : quacks === null ? (
       <p>No posts for this user</p>
-    ) : (
+    ) : !quackIdParam ? (
       quacks.map(quack => <Quack key={quack.quackId} quack={quack} />)
+    ) : (
+      quacks.map(quack => {
+        if (quack.quackId !== quackIdParam) {
+          return <Quack key={quack.quackId} quack={quack} />;
+        } else {
+          return <Quack key={quack.quackId} quack={quack} openDialog />;
+        }
+      })
     );
     return (
       <Grid container spacing={4}>
