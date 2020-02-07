@@ -23,6 +23,8 @@ import user from "./pages/user";
 
 import axios from "axios";
 
+axios.defaults.baseURL = //"your api url";
+
 const theme = createMuiTheme(themeFile);
 const token = localStorage.FBIdToken;
 

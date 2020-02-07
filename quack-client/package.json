@@ -39,6 +39,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "https://europe-west1-quack-1d8e3.cloudfunctions.net/api"
+  }
 }

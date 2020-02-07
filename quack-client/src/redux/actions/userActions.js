@@ -9,8 +9,7 @@ import {
 } from "../types";
 import axios from "axios";
 
-axios.defaults.baseURL =
-  "https://europe-west1-quack-1d8e3.cloudfunctions.net/api";
+axios.defaults.baseURL = //"your api endpoint";
 
 //Login
 export const loginUser = (userData, history) => dispatch => {

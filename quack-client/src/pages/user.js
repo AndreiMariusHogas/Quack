@@ -17,8 +17,7 @@ import { getUserProfile } from "../redux/actions/dataActions";
 //Extra tools
 import axios from "axios";
 
-axios.defaults.baseURL =
-  "https://europe-west1-quack-1d8e3.cloudfunctions.net/api";
+axios.defaults.baseURL = //"Your api endpoint";
 
 const styles = {};
 
